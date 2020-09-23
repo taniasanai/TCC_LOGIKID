@@ -31,6 +31,11 @@ void setup() {
   new Rotulo("Digite um texto e presione o botao: ", p, 5, 5, 220, 30);
 
   b = new Botao("Aperte aqui para mover os paineis", p, 5, 35, 220, 30);
+  int red = 255;
+  int green = 128;
+  int blue = 128;
+  b.frente(color(red, green, blue));
+  b.fundo(color(255, 210, 210));
 
   Rotulo r = new Rotulo("Digite aqui um texto e pressione <enter>: ", p, 5, 75, 260, 20);
   e = new Entrada("texto", p, r.x+r.larg, 75, 100, 20);
@@ -57,8 +62,7 @@ class Painel2 extends Painel {
 
     void acao() {
       println("Tratamento diferente do botão: " + e.texto());
-      pai.visivel = false;
-      pai.desenha();
+      pai.visivel(false);
     }
   }
 }

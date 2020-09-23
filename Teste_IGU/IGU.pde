@@ -73,6 +73,11 @@ class Componente {
     y = min.y;
     poli = new Poligono(ptos);
   }
+  
+  void visivel(boolean b) {
+    visivel = b;
+    redraw();
+  }
 
   void fundo(color c) {
     corFundo = c;
@@ -117,7 +122,7 @@ class Componente {
     }
   }
 
-  void atualiza() {
+  protected void atualiza() {
     strokeWeight(1); 
     stroke(0);
     poli.corPreenchimento(corFundo);
