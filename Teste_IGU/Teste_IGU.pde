@@ -9,6 +9,8 @@ class Principal extends IGU {
         println("Botao pressionado. Texto digitado na extrada: " + e.texto());
         p2.move(300,150);
         p3.move(100,400);
+        p2.visivel(true);
+        p3.visivel(true);
         p3.desenha();
       }
     } else if (c instanceof Entrada) {
@@ -32,14 +34,17 @@ class RotTexto extends Rotulo {
 }
 
 class PainelFigura extends Painel {
+  PImage img;
+  
   PainelFigura(String nomeArquivoFigura, Componente pai, int x, int y, int larg, int altu) {
     super(pai, x, y, larg, altu);
-    //carrega figura
+    img = loadImage(nomeArquivoFigura, "jpg");
+     //carrega figura
   }
   
   void desenha() {
     //super.desenha();
-    //mostra figura
+    image(img, 0, 0);
   }
 }
 
@@ -48,25 +53,24 @@ class BotaoFigura extends Botao {
   
   BotaoFigura(String nomeArquivoFigura, Componente pai, int ... ptosXY) {
     super("", pai, ptosXY);
-    String url = "https://processing.org/img/processing-web.png";
   // Load image from a web server
-    webImg = loadImage(url, "png");
+    webImg = loadImage(nomeArquivoFigura, "jpg");
     //carrega figura
   }
   
   void desenha() {
     desenhaFundo();
     if (pressionado) {
-      fundo(color(0,137, 0));
+      //fundo(color(255, 0, 0));
       //desenha o botão quando pressionarmage
-      image(webImg, 1, 1);
+      image(webImg, 1, 1, larg, altu);
     } else if (preparado) {
-      fundo(color(0,137, 127));
-      image(webImg, -1, -1);
+      //fundo(color(0, 255, 0));
+      image(webImg, -1, -1, larg, altu);
       //desenha o botão quando o mouse setá sobre o botao
     } else {
-      fundo(color(127,137, 0));
-      image(webImg, 0, 0);
+      //fundo(color(0, 0, 255));
+      image(webImg, 0, 0, larg, altu);
       //desenhar a imagem do botao na situação de espera se o mouse sobre ele
     }
   }
@@ -79,7 +83,8 @@ void setup() {
 
   principal = new Principal();
 
-  Painel p = new Painel(principal, 5, 5, width - 10, height - 10);
+  Painel p = new PainelFigura("https://s2.glbimg.com/c1tS_axTjV_qDkmMeMs3wYZCgGY=/0x0:5472x3648/1008x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2017/H/v/pTatikTlSIWRuTzd0JwA/j9a6180.jpg", 
+                               principal, 55, 55, width - 100, height - 100);
 
   new Rotulo("Digite um texto e presione o botao: ", p, 5, 5, 220, 30);
 
@@ -90,7 +95,7 @@ void setup() {
   b.frente(color(red, green, blue));
   b.fundo(color(255, 210, 210));
 
-  Rotulo r = new RotTexto("Digite aqui um texto e pressione <enter>: ", p, 5, 75, 260, 20);
+  Rotulo r = new RotTexto("Digite aqui um texto e pressione <enter>: ", p, 5, 75, 260, 50);
   e = new Entrada("texto", p, r.x+r.larg, 75, 100, 20);
 
   //-------------- Segundo painel
@@ -99,14 +104,14 @@ void setup() {
 }
 
 class Painel2 extends Painel {
-  BotTrataEvento b = new BotTrataEvento("Clique aqui para esconder", this, 20, 90, 160, 25);
+  BotTrataEvento b = new BotTrataEvento("Clique aqui para esconder", this, 15, 110, 170, 25);
   Entrada e;
   
   Painel2(Painel pai, int x, int y) {
     super(pai, x, y, 200, 150);
     Rotulo r = new Rotulo("Digite: ", this, 5, 45, 50, 20);
-    BotaoFigura bf = new BotaoFigura("fig.gif", this, 10, 10, 10, 80, 80, 80);
-    bf.fundo(color(0, 255,0));
+    Botao bf = new BotaoFigura("http://pt.naturewallpaperfree.com/c%C3%A9u/natureza-papel-de-parede-128x128-4129-e51cf332.jpg", this, 10, 10, 10, 80, 80, 80, 50, 20);
+    //bf.fundo(color(0, 255,0));
     e = new Entrada("?????", this, r.x + r.larg, 45, 100, 20);
   }
 
