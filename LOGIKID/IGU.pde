@@ -133,7 +133,6 @@ class Componente {
 
   void desenha() {
     poli.desenha();
-    poli.desenhaContorno();
   }
 
   void acao() {
@@ -205,7 +204,7 @@ class Rotulo extends Componente {
 
   void desenha() {
     int x = 2;
-    fill(0);
+    fill(corFrente);
     textAlign(LEFT, BOTTOM);
     switch (alinha) {
     case CENTER:
@@ -380,7 +379,7 @@ class Entrada extends Componente {
     noStroke();
     poli.corPreenchimento(corFundo);
     poli.desenha();
-    stroke(0);
+    stroke(corFrente);
     poli.desenhaContorno();
     textAlign(LEFT, TOP);
     switch (alinha) {
@@ -513,7 +512,7 @@ class Painel extends Componente {
     noStroke();
     poli.corPreenchimento(corFundo);
     poli.desenha();
-    stroke(0);
+    stroke(corFrente);
     poli.desenhaContorno();
   }
 }

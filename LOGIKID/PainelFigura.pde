@@ -3,7 +3,7 @@ class PainelFigura extends Painel {
   
   PainelFigura(String nomeArquivoFigura, Componente pai, int x, int y, int larg, int altu) {
     super(pai, x, y, larg, altu);
-    img = loadImage(nomeArquivoFigura, "jpg");
+    img = loadImage(nomeArquivoFigura, "png");
      //carrega figura
   }
   
