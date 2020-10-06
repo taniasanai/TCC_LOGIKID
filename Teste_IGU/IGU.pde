@@ -133,6 +133,7 @@ class Componente {
 
   void desenha() {
     poli.desenha();
+    poli.desenhaContorno();
   }
 
   void acao() {
@@ -201,10 +202,15 @@ class Rotulo extends Componente {
   String texto() {
     return texto;
   }
+  
+  void texto(String txt) {
+    texto = txt;
+    redraw();
+  }
 
   void desenha() {
     int x = 2;
-    fill(corFrente);
+    fill(0);
     textAlign(LEFT, BOTTOM);
     switch (alinha) {
     case CENTER:
@@ -379,7 +385,7 @@ class Entrada extends Componente {
     noStroke();
     poli.corPreenchimento(corFundo);
     poli.desenha();
-    stroke(corFrente);
+    stroke(0);
     poli.desenhaContorno();
     textAlign(LEFT, TOP);
     switch (alinha) {
@@ -512,7 +518,7 @@ class Painel extends Componente {
     noStroke();
     poli.corPreenchimento(corFundo);
     poli.desenha();
-    stroke(corFrente);
+    stroke(0);
     poli.desenhaContorno();
   }
 }
