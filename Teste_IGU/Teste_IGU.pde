@@ -12,11 +12,28 @@ class Principal extends IGU {
         p2.visivel(true);
         p3.visivel(true);
         p3.desenha();
+        new Dialogo("Titulo", this).visivel(true);
+        new Dlg(this);
       }
     } else if (c instanceof Entrada) {
       if (c == e) {
         println("Texto digitado na extrada: " + e.texto());
       }
+    }
+  }
+}
+
+class Dlg extends Dialogo {
+  Botao bt;
+  Dlg(Componente pai) {
+    super("Teste do Dialogo", pai);
+    bt = new Botao("Botao de teste", this, 10, 10, 150, 20);
+    visivel(true);
+  }
+  
+  void acao(Componente c) {
+    if (c == bt) {
+      fecha();
     }
   }
 }
@@ -85,7 +102,9 @@ void setup() {
 
   Painel p = new PainelFigura("https://s2.glbimg.com/c1tS_axTjV_qDkmMeMs3wYZCgGY=/0x0:5472x3648/1008x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2017/H/v/pTatikTlSIWRuTzd0JwA/j9a6180.jpg", 
                                principal, 55, 55, width - 100, height - 100);
-
+    //Painel p = new Painel(//"https://s2.glbimg.com/c1tS_axTjV_qDkmMeMs3wYZCgGY=/0x0:5472x3648/1008x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2017/H/v/pTatikTlSIWRuTzd0JwA/j9a6180.jpg", 
+    //                           principal, 55, 55, width - 100, height - 100);
+  
   new Rotulo("Digite um texto e presione o botao: ", p, 5, 5, 220, 30);
 
   b = new Botao("Aperte aqui para mover os paineis", p, 5, 35, 220, 30);
@@ -96,7 +115,11 @@ void setup() {
   b.fundo(color(255, 210, 210));
 
   Rotulo r = new RotTexto("Digite aqui um texto e pressione <enter>: ", p, 5, 75, 260, 50);
+  r.frente(color(255,0,0));
+  r.fundo(color(0,255,0));
   e = new Entrada("texto", p, r.x+r.larg, 75, 100, 20);
+  e.frente(color(255,0,0));
+  e.fundo(color(0,255,0));
 
   //-------------- Segundo painel
   p2 = new Painel2(p, 100, 120);
@@ -113,6 +136,9 @@ class Painel2 extends Painel {
     Botao bf = new BotaoFigura("http://pt.naturewallpaperfree.com/c%C3%A9u/natureza-papel-de-parede-128x128-4129-e51cf332.jpg", this, 10, 10, 10, 80, 80, 80, 50, 20);
     //bf.fundo(color(0, 255,0));
     e = new Entrada("?????", this, r.x + r.larg, 45, 100, 20);
+    
+    frente(color(255,0,0));
+    fundo(color(0,255,0));
   }
 
   class BotTrataEvento extends Botao {
