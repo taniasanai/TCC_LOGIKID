@@ -9,6 +9,7 @@ class Componente {
   Poligono poli;
   int xAbs, yAbs;
   int x, y, larg, altu;
+  int xRecorte, yRecorte, largRecorte, altuRecorte;
   color corFundo = color(128, 128, 128);
   color corFrente = color(0, 0, 0);
   boolean podeReceberFoco = true;
@@ -70,6 +71,7 @@ class Componente {
     }
     x = min.x;
     y = min.y;
+    recorta();
     poli = new Poligono(ptos);
     for (Componente c : componentes)
       c.move(c.x, c.y);
@@ -94,6 +96,7 @@ class Componente {
   void move(int x, int y) {
     xAbs = pai.xAbs + x;
     yAbs = pai.yAbs + y;
+    recorta();
     this.x = x;
     this.y = y;
     for (Componente c : componentes)
@@ -107,15 +110,34 @@ class Componente {
     return poli.contem(x, y);
   }
 
+  void recorta() {
+    if (pai == null) {
+      xRecorte = xAbs;
+      yRecorte = yAbs;
+      largRecorte = larg;
+      altuRecorte = altu;
+    } else {
+      xRecorte = max(xAbs, pai.xRecorte);
+      yRecorte = max(yAbs, pai.yRecorte);
+      largRecorte = min(xAbs + larg, pai.xRecorte + pai.largRecorte) - xRecorte;
+      altuRecorte = min(yAbs + altu, pai.yRecorte + pai.altuRecorte) - yRecorte;
+    }
+  }
+
   void redesenha() {
-    if (visivel) {
-      clip(xAbs, yAbs, larg+1, altu+1);
+    if (visivel) { 
+      clip(xRecorte, yRecorte, largRecorte+1, altuRecorte+1);
       pushMatrix();
       translate(xAbs, yAbs);
       atualiza();
       popMatrix();
       for (Componente c : componentes)
         c.redesenha();
+      clip(xRecorte, yRecorte, largRecorte+1, altuRecorte+1);
+      pushMatrix();
+      translate(xAbs, yAbs);
+      atualizaContorno();
+      popMatrix();
     }
   }
 
@@ -127,10 +149,20 @@ class Componente {
     stroke(corFrente);
     desenha();
   }
+  
+  protected void atualizaContorno() {
+    strokeWeight(1); 
+    textSize(tamanhoTexto);
+    stroke(corFrente);
+    desenhaContorno();
+  }
+  
+  void desenhaContorno() {
+    poli.desenhaContorno();
+  }
 
   void desenha() {
     poli.desenha();
-    poli.desenhaContorno();
   }
 
   void acao() {
@@ -224,6 +256,9 @@ class Rotulo extends Componente {
     }
     fill(corFrente);
     text(texto, x, (altu + (textAscent() + textDescent()))/2);
+  }
+  
+  void desenhaContorno() {
   }
 }
 

@@ -121,8 +121,9 @@ void setup() {
   e.frente(color(255, 0, 0));
   e.fundo(color(0, 255, 0));
 
-  //-------------- Segundo painel
-  p2 = new Painel2(p, 100, 120);
+  Painel p1 = new Painel(p, 150, 150, 400, 300);
+  
+  p2 = new Painel2(p1, 100, 120);
   p3 = new Painel2(p, 350, 120);
 }
 
@@ -136,8 +137,13 @@ class Painel2 extends Painel {
     Botao bf = new BotaoFigura("http://pt.naturewallpaperfree.com/c%C3%A9u/natureza-papel-de-parede-128x128-4129-e51cf332.jpg", this, 10, 10, 10, 80, 80, 80, 50, 20);
     //bf.fundo(color(0, 255,0));
     e = new Entrada("?????", this, r.x + r.larg, 45, 100, 20);
+    
+    Painel pa = new Painel(this, -10, -10, 20, 20);
+    pa.fundo(color(255, 128, 0));
+    Painel pb = new Painel(this, larg-10, altu-10, 20, 20);
+    pb.fundo(color(255, 128, 0));
 
-    frente(color(255, 0, 0));
+    frente(color(0, 0, 255));
     fundo(color(0, 255, 0));
   }
 
