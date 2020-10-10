@@ -1,8 +1,8 @@
-Botao b;
+Botao bPlay, bStop;
 Entrada e;
 Painel2 p2, p3;
-PainelFigura pRobo;
-Painel painelRobo;
+PainelFigura pRobo, pBalao;
+Painel painelRobo, painelBalao, painelProg, pBotao, painelInst;
 Principal principal;
 
 void setup() {
@@ -12,7 +12,7 @@ void setup() {
   principal.fundo(color(162, 99, 5));
 
   Painel p = new Painel(principal, 5, 5, width - 10, height - 10);
-
+  p.fundo(color(254,225,210));
   
 
   //b = new Botao("Aperte aqui para mover os paineis", p, 5, 35, 220, 30);
@@ -31,9 +31,14 @@ void setup() {
   //p3 = new Painel2(p, 350, 120);
   
   //--------Painel Robo
-  painelRobo = new painelRobo(p, 10,10);
+  painelRobo = new painelRobo(p, 10,50);
   painelRobo.frente(painelRobo.corFundo);
-  
+  painelBalao = new painelBalao(p, 310,0);
+  painelBalao.frente(painelBalao.corFundo);
+  painelProg = new painelProg(p,700,10);
+  //painelProg.frente(principal.corFundo);
+  //painelInst = new painelInst(p,310,300);
+  //painelInst.frente(principal.corFundo);
 }
 
 void draw() {

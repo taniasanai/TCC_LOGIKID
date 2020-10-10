@@ -4,7 +4,7 @@ class RotTexto extends Rotulo {
   }
   
   void desenha() {
-    PFont f = createFont("Arial", 36);
+    PFont f = createFont("Arial", 40);
     textFont(f);
     super.desenha();
   }

@@ -1,10 +1,10 @@
 class BotaoFigura extends Botao {
   PImage webImg;
   
-  BotaoFigura(String nomeArquivoFigura, Componente pai, int ... ptosXY) {
-    super("", pai, ptosXY);
+  BotaoFigura(String nomeArquivoFigura, Componente pai, int x, int y) {
+    super("", pai, x,y, 100,100);
   // Load image from a web server
-    webImg = loadImage(nomeArquivoFigura, "jpg");
+    webImg = loadImage(nomeArquivoFigura, "png");
     //carrega figura
   }
   
