@@ -44,3 +44,9 @@ void setup() {
 void draw() {
   principal.redesenha();
 }
+
+
+String extensao(String nomeDoArquivo) {
+  int pos = nomeDoArquivo.lastIndexOf('.');
+  return nomeDoArquivo.substring(pos+1);
+}
