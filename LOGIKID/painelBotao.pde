@@ -1,12 +1,12 @@
-class painelBotao extends Painel{
-  painelBotao(Painel pai, int x, int y){
-    super(pai, x, y,  280, 300);
-    bPlay = new BotaoFigura("robogif.png",this,5,5);
-    bPlay.fundo(super.corFundo);
+class PainelBotao extends Painel{
+  PainelBotao(Painel pai, int x, int y){
+    super(pai, x, y,  300, 110);
+    bPlay = new BotaoFigura("play.png",this,5,5);
+    bPlay.fundo(pai.pai.corFundo);
     bPlay.frente(pai.pai.corFundo);
     
-    //bStop = new BotaoFigura("https://img.icons8.com/plasticine/50/000000/stop.png",this,200,5, 50,50);
-    //bStop.fundo(super.corFundo);
-    //bStop.frente(painelProg.corFundo);
+    bStop = new BotaoFigura("stop.png",this,225,5);
+    bStop.fundo(pai.pai.corFundo);
+    bStop.frente(pai.pai.corFundo);
   }  
 }

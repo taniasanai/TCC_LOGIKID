@@ -1,6 +1,10 @@
 class Principal extends IGU {
   void acao(Componente c) {
     if (c instanceof Botao) {
+      if(c == bConfirmar){
+        //new Dialogo("Titulo", this).visivel(true);
+        new Dlg(this);
+      }
       //if (c == b) {
       //  //println("Botao pressionado. Texto digitado na extrada: " + e.texto());
       //  p2.move(300,150);

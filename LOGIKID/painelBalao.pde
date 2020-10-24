@@ -1,5 +1,5 @@
-class painelBalao extends Painel{
-  painelBalao(Painel pai, int x, int y){
+class PainelBalao extends Painel{
+  PainelBalao(Painel pai, int x, int y){
     super(pai, x, y,  350, 200);
     
   }  

@@ -1,8 +1,8 @@
-Botao bPlay, bStop;
+Botao bPlay, bStop, bLimpar, bConfirmar;
 Entrada e;
 Painel2 p2, p3;
 PainelFigura pRobo, pBalao;
-Painel painelRobo, painelBalao, painelProg, pBotao, painelInst;
+Painel painelRobo, painelBalao, painelProg, pBotao, painelInst, pBotaoInst,pAcao, pPosicao;
 Principal principal;
 
 void setup() {
@@ -30,15 +30,17 @@ void setup() {
   //p2 = new Painel2(p, 10, 10);
   //p3 = new Painel2(p, 350, 120);
   
-  //--------Painel Robo
-  painelRobo = new painelRobo(p, 10,50);
+  //--------Painel Robo ----- isso deveria ficar em uma outra classe -> PainelInterno
+  painelRobo = new PainelRobo(p, 10,50);
   painelRobo.frente(painelRobo.corFundo);
-  painelBalao = new painelBalao(p, 310,0);
+  painelBalao = new PainelBalao(p, 310,0);
   painelBalao.frente(painelBalao.corFundo);
-  painelProg = new painelProg(p,700,10);
-  //painelProg.frente(principal.corFundo);
-  //painelInst = new painelInst(p,310,300);
-  //painelInst.frente(principal.corFundo);
+  painelProg = new PainelProg(p,700,10);
+  painelProg.frente(principal.corFundo);
+  painelProg.fundo(p.corFundo);
+  painelInst = new PainelInst(p,10,350);
+  painelInst.frente(principal.corFundo);
+  painelInst.fundo(p.corFundo);
 }
 
 void draw() {

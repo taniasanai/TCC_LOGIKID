@@ -1,5 +1,5 @@
-class painelRobo extends Painel{
-  painelRobo(Painel pai, int x, int y){
+class PainelRobo extends Painel{
+  PainelRobo(Painel pai, int x, int y){
     super(pai, x, y,  280, 300);
     
   }  
