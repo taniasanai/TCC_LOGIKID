@@ -47,7 +47,7 @@ class Componente {
       max.y = max(max.y, ptosXY[i + 1]);
     }
   }
-  
+
   void forma(Componente pai, int x, int y, int larg, int altu) {
     formaPoli(pai, x, y, x + larg, y, x + larg, y + altu, x, y + altu);
   }
@@ -142,6 +142,7 @@ class Componente {
   }
 
   protected void atualiza() {
+    textAlign(LEFT, TOP);
     strokeWeight(1); 
     stroke(0);
     poli.corPreenchimento(corFundo);
@@ -149,16 +150,19 @@ class Componente {
     stroke(corFrente);
     desenha();
   }
-  
+
   protected void atualizaContorno() {
     strokeWeight(1); 
-    textSize(tamanhoTexto);
     stroke(corFrente);
     desenhaContorno();
   }
-  
+
   void desenhaContorno() {
     poli.desenhaContorno();
+  }
+
+  void desenhaContorno(int dx, int dy) {
+    poli.desenhaContorno(dx, dy);
   }
 
   void desenha() {
@@ -245,7 +249,6 @@ class Rotulo extends Componente {
 
   void desenha() {
     int x = 2;
-    textAlign(LEFT, BOTTOM);
     switch (alinha) {
     case CENTER:
       x = (larg - (int)textWidth(texto)) / 2;
@@ -255,9 +258,9 @@ class Rotulo extends Componente {
       break;
     }
     fill(corFrente);
-    text(texto, x, (altu + (textAscent() + textDescent()))/2);
+    text(texto, x, (altu - (textAscent() + textDescent()))/2);
   }
-  
+
   void desenhaContorno() {
   }
 }
@@ -316,28 +319,128 @@ class Botao extends Componente {
   }
 
   void desenhaFrente(int dx, int dy) {
-    stroke(corFrente);
-    poli.desenhaContorno();
     fill(corFrente);
     text(texto, (larg - (int)textWidth(texto)) / 2 + dx, (altu - (textAscent() + textDescent()))/2 + dy);
   }
 
-  void desenha() {
-    textSize(tamanhoTexto);
-    textAlign(LEFT, TOP);
+  void desenhaAcionado() {
     desenhaFundo();
+    stroke(lerpColor(corFundo, color(0, 0, 0), 0.5)); 
+    desenhaContorno(1, 1);
+    desenhaFrente(1, 1);
+  }
+
+  void desenhaPreparado() { 
+    desenhaFundo();
+    stroke(lerpColor(corFundo, color(0, 0, 0), 0.5));
+    desenhaContorno(-1, -1); 
+    stroke(lerpColor(corFundo, color(255, 255, 255), 0.5));
+    desenhaContorno(1, 1);
+    desenhaFrente(0, 0);
+  }
+
+  void desenhaNormal() {
+    desenhaFundo();
+    desenhaFrente(1, 1);
+  }
+
+  void desenha() {
     if (pressionado) {
-      stroke(lerpColor(corFundo, color(0, 0, 0), 0.5)); 
-      poli.desenhaContorno(1, 1);
-      desenhaFrente(1, 1);
+      desenhaAcionado();
     } else if (preparado) {
-      stroke(lerpColor(corFundo, color(0, 0, 0), 0.5));
-      poli.desenhaContorno(-1, -1); 
-      stroke(lerpColor(corFundo, color(255, 255, 255), 0.5));
-      poli.desenhaContorno(1, 1);
-      desenhaFrente(0, 0);
+      desenhaPreparado();
     } else {
-      desenhaFrente(1, 1);
+      desenhaNormal();
+    }
+  }
+}
+
+class PainelEstados extends Painel {
+  PainelEstados(Componente pai, int x, int y, int larg, int altu) {
+    super(pai, x, y, larg, altu);
+  }
+  
+  PainelEstados(String opcoes[], Componente pai, int x, int y, int larg, int altu) {
+    super(pai, x, y, larg, altu);
+    int maxX = 0;
+    int maxY = (int)(textAscent() + textDescent());
+    for (String op: opcoes) {
+      if (maxX < (int)textWidth(op)) {
+        maxX = (int)textWidth(op);
+      }
+    }
+    maxY += 2;
+    forma(pai, x, y, maxX + maxY*2, maxY * opcoes.length);
+    int posY = 0;
+    for (String op: opcoes) {
+      new BotaoEstado(op, this, 0, posY, larg, maxY);
+      posY += maxY; 
+    }
+  }
+
+  void acao(Componente c) {
+    super.acao(c);
+    for (Componente irmao : componentes) {
+      if (irmao instanceof BotaoEstado && irmao != c) {
+        ((BotaoEstado)irmao).estado(false);
+      }
+    }
+  }
+  
+  BotaoEstado selecionado() {
+    for (Componente bt : componentes) {
+      if (bt instanceof BotaoEstado && ((BotaoEstado)bt).estado) {
+        return (BotaoEstado)bt;
+      }
+    }
+    return null;
+  }
+}
+
+class BotaoEstado extends Botao {
+  private boolean estado = false;
+
+  BotaoEstado(String texto, Componente pai, int x, int y, int larg, int altu) {
+    super(texto, pai, x, y, larg, altu);
+  }
+
+  BotaoEstado(String texto, Componente pai, int ... ptosXY) {
+    super(texto, pai, ptosXY);
+  }
+
+  void estado(boolean e) {
+    estado = e;
+    redesenha();
+  }
+
+  void acao() {
+    super.acao();
+    if (pai instanceof PainelEstados) {
+      estado(true);
+    } else {
+      estado(!estado);
+    }
+  }
+
+  void desenhaFrente(int dx, int dy) {
+    int y = (int)(altu - (textAscent() + textDescent()))/2 + dy;
+    char simbolo = 0x2718;
+    int x = dx + (int)textWidth(simbolo) + 4;
+    if (!estado) {
+      simbolo = ' ';
+    }
+    fill(corFrente);
+    text(simbolo, dx + 2, y);
+    text(texto, x, y);
+  }
+
+  void desenha() {
+    if (pressionado || estado) {
+      desenhaAcionado();
+    } else if (preparado) {
+      desenhaPreparado();
+    } else {
+      desenhaNormal();
     }
   }
 }
@@ -420,12 +523,7 @@ class Entrada extends Componente {
   void desenha() {
     int xTexto = xPosTexto;
     int xCarete;
-    noStroke();
-    poli.corPreenchimento(corFundo);
-    poli.desenha();
-    stroke(corFrente);
-    poli.desenhaContorno();
-    textAlign(LEFT, TOP);
+    super.desenha();
     switch (alinha) {
     case CENTER:
       xTexto += (larg - (int)textWidth(texto)) / 2;
@@ -551,23 +649,15 @@ class Painel extends Componente {
     super(pai, x, y, larg, altu);
     corFundo = color(224, 224, 224);
   }
-
-  void desenha() {
-    noStroke();
-    poli.corPreenchimento(corFundo);
-    poli.desenha();
-    stroke(corFrente);
-    poli.desenhaContorno();
-  }
 }
 
 class SuporteDialogo extends Componente {
   private Componente modalAnterior;
-  
+
   SuporteDialogo(Componente pai) {
     super(pai, (width-50)/2, (height-40)/2, 50, 40);
   }
-  
+
   void visivel(boolean b) {
     visivel = b;
     if (visivel) {
@@ -580,6 +670,31 @@ class SuporteDialogo extends Componente {
   }
 }
 
+class PainelTitulo extends Painel {
+  Rotulo rotTitulo;
+  Botao btFechar;
+
+  PainelTitulo(String titulo, Componente pai) {
+    super(pai, 0, 0, pai.larg, 18);
+    rotTitulo = new Rotulo(titulo, this, 0, 0, larg - altu, altu);
+    btFechar = new Botao("X", this, rotTitulo.x + rotTitulo.larg, 0, altu, altu);
+    fundo(btFechar.corFrente);
+    rotTitulo.frente(btFechar.corFundo);
+  }
+
+  void acao(Componente c) {
+    if (c == btFechar) {
+      pai.remove();
+    }
+  }
+
+  void forma() {
+    forma(pai, 0, 0, pai.larg, altu);
+    rotTitulo.forma(pai, 2, 0, pai.larg - btFechar.larg, btFechar.larg);  
+    btFechar.move(pai.larg - btFechar.larg, 0);
+  }
+}
+
 class Dialogo extends Componente {
   private PainelTitulo painelTitulo;
 
@@ -587,38 +702,13 @@ class Dialogo extends Componente {
     super(new SuporteDialogo(pai), 0, 18, 50, 40);
     painelTitulo = new PainelTitulo(titulo, this.pai);
   }
-  
-  class PainelTitulo extends Painel {
-    Rotulo rotTitulo;
-    Botao btFechar;
-    
-    PainelTitulo(String titulo, Componente pai) {
-      super(pai, 0, 0, pai.larg, 18);
-      rotTitulo = new Rotulo(titulo, this, 0, 0, larg - altu, altu);
-      btFechar = new Botao("X", this, rotTitulo.x + rotTitulo.larg, 0, altu, altu);
-      fundo(color(64, 64, 64));
-      rotTitulo.frente(color(255, 255, 255));
-    }
 
-    void acao(Componente c) {
-      if (c == btFechar) {
-        pai.remove();
-      }
-    }
-    
-    void forma() {
-      forma(pai, 0, 0, pai.larg, altu);
-      rotTitulo.forma(pai, 2, 0, pai.larg - btFechar.larg, btFechar.larg);  
-      btFechar.move(pai.larg - btFechar.larg, 0);
-    }
-  }
-  
   void forma() {
     int minX = Integer.MAX_VALUE;
     int minY = Integer.MAX_VALUE;
     int maxX = 0;
     int maxY = 0;
-    for (Componente c: componentes) {
+    for (Componente c : componentes) {
       minX = min(minX, c.x);
       minY = min(minY, c.y);
       maxX = max(maxX, c.x + c.larg);
@@ -630,16 +720,16 @@ class Dialogo extends Componente {
       maxX = 80 - minX;
     if (maxY + minY < 60) 
       maxY = 60 - maxY;
-    pai.forma(pai.pai, (width - (minX + maxX))/2, (height - (minY + maxY))/2 - painelTitulo.altu, minX + maxX, minY + maxY + painelTitulo.altu); //<>//
+    pai.forma(pai.pai, (width - (minX + maxX))/2, (height - (minY + maxY))/2 - painelTitulo.altu, minX + maxX, minY + maxY + painelTitulo.altu);
     forma(pai, 0, painelTitulo.altu, minX + maxX, minY + maxY);
     painelTitulo.forma();
   }
-  
+
   void visivel(boolean b) {
-    forma(); //<>//
+    forma();
     pai.visivel(b);
   }
-  
+
   void fecha() {
     pai.remove();
   }

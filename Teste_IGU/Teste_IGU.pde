@@ -2,6 +2,8 @@ Botao b;
 Entrada e;
 Painel2 p2, p3;
 
+Principal principal;
+
 class Principal extends IGU {
   void acao(Componente c) {
     if (c instanceof Botao) {
@@ -13,7 +15,7 @@ class Principal extends IGU {
         p3.visivel(true);
         p3.desenha();
         new Dialogo("Titulo", this).visivel(true);
-        new Dlg(this);
+        new Dlg(principal);
       }
     } else if (c instanceof Entrada) {
       if (c == e) {
@@ -27,7 +29,17 @@ class Dlg extends Dialogo {
   Botao bt;
   Dlg(Componente pai) {
     super("Teste do Dialogo", pai);
-    bt = new Botao("Botao de teste", this, 10, 10, 150, 20);
+    PainelEstados pe = new PainelEstados(this, 10, 10, 150, 80);
+    BotaoEstado be1 = new BotaoEstado("Opção 1", pe, 0, 0, 150, 20);
+    BotaoEstado be2 = new BotaoEstado("Opção dois", pe, 0, be1.y + be1.altu, 150, 20);
+    BotaoEstado be3 = new BotaoEstado("Opção III", pe, 0, be2.y + be2.altu, 150, 20);
+    BotaoEstado be4 = new BotaoEstado("Opção 4", pe, 0, be3.y + be3.altu, 150, 20);
+    
+    String opcoes[] = {"um", "dois", "três", "quatro"};
+    new PainelEstados(opcoes, this, pe.x + pe.larg + 10, 10, 150, 80);
+    
+    bt = new Botao("Botao de teste", this, 10, pe.y + pe.altu + 10, 150, 20);
+    new Entrada("", this, 100, bt.y + bt.altu + 10, 100, 20);
     visivel(true);
   }
 
@@ -93,7 +105,6 @@ class BotaoFigura extends Botao {
   }
 }
 
-Principal principal;
 
 void setup() {
   size(1024, 768);
@@ -123,20 +134,21 @@ void setup() {
 
   Painel p1 = new Painel(p, 150, 150, 400, 300);
   
-  p2 = new Painel2(p1, 100, 120);
+  p2 = new Painel2(p1, -50, 120);
   p3 = new Painel2(p, 350, 120);
 }
 
 class Painel2 extends Painel {
-  BotTrataEvento b = new BotTrataEvento("Clique aqui para esconder", this, 15, 110, 170, 25);
+  BotTrataEvento b = new BotTrataEvento("Clique aqui para esconder", this, 15, 130, 170, 25);
   Entrada e;
 
   Painel2(Painel pai, int x, int y) {
-    super(pai, x, y, 200, 150);
-    Rotulo r = new Rotulo("Digite: ", this, 5, 45, 50, 20);
+    super(pai, x, y, 200, 200);
+    Rotulo r = new Rotulo("Digite: ", this, 5, 95, 50, 20);
+    e = new Entrada("?????", this, r.x + r.larg, 95, 100, 20);
+    
     Botao bf = new BotaoFigura("http://pt.naturewallpaperfree.com/c%C3%A9u/natureza-papel-de-parede-128x128-4129-e51cf332.jpg", this, 10, 10, 10, 80, 80, 80, 50, 20);
     //bf.fundo(color(0, 255,0));
-    e = new Entrada("?????", this, r.x + r.larg, 45, 100, 20);
     
     Painel pa = new Painel(this, -10, -10, 20, 20);
     pa.fundo(color(255, 128, 0));
@@ -161,7 +173,12 @@ class Painel2 extends Painel {
       formaPoli(pai, x, y+6, x+1, y+3, x+3, y+1, x+6, y, // Primeiro canto 
                 x + larg -6, y, x + larg-3, y+1, x + larg-1, y+3, x + larg, y+6, // Segundo
                 x + larg, y + altu-6, x + larg-1, y + altu-3, x + larg-3, y + altu-1, x + larg -6, y + altu, //Terceiro  
-                x, y + altu);
+                x + 6, y + altu, x + 3, y + altu-1, x + 1, y + altu-3, x, y + altu-6);
+    }
+    
+    void desenhaContorno() {
+      strokeWeight(1); 
+      super.desenhaContorno();
     }
   }
 }
