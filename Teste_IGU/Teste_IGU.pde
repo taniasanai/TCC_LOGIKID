@@ -27,6 +27,9 @@ class Principal extends IGU {
 
 class Dlg extends Dialogo {
   Botao bt;
+  PainelEstados pe2;
+  String opcoes[]={"um", "dois", "três", "quatro"};;
+  
   Dlg(Componente pai) {
     super("Teste do Dialogo", pai);
     PainelEstados pe = new PainelEstados(this, 10, 10, 150, 80);
@@ -35,8 +38,7 @@ class Dlg extends Dialogo {
     BotaoEstado be3 = new BotaoEstado("Opção III", pe, 0, be2.y + be2.altu, 150, 20);
     BotaoEstado be4 = new BotaoEstado("Opção 4", pe, 0, be3.y + be3.altu, 150, 20);
     
-    String opcoes[] = {"um", "dois", "três", "quatro"};
-    new PainelEstados(opcoes, this, pe.x + pe.larg + 10, 10, 150, 80);
+    pe2 = new PainelEstados(opcoes, this, pe.x + pe.larg + 10, 10, 150, 80);
     
     bt = new Botao("Botao de teste", this, 10, pe.y + pe.altu + 10, 150, 20);
     new Entrada("", this, 100, bt.y + bt.altu + 10, 100, 20);
@@ -46,6 +48,19 @@ class Dlg extends Dialogo {
   void acao(Componente c) {
     if (c == bt) {
       fecha();
+    } else if (c.pai == pe2 && c instanceof BotaoEstado) {
+      BotaoEstado be = (BotaoEstado)c; 
+       
+      if (be.id == 0) {
+        println("O primeiro botão " + be.texto + " foi pressionado"); 
+      }
+      
+    }
+    else {
+      println(pe2.idSelecionado());
+      if(pe2.idSelecionado() == 2){
+         println("O terceiro botão " + opcoes[2] + " foi pressionado"); 
+      }
     }
   }
 }

@@ -356,15 +356,17 @@ class Botao extends Componente {
 }
 
 class PainelEstados extends Painel {
+  int ultimoId = 0;
+  
   PainelEstados(Componente pai, int x, int y, int larg, int altu) {
     super(pai, x, y, larg, altu);
   }
-  
+
   PainelEstados(String opcoes[], Componente pai, int x, int y, int larg, int altu) {
     super(pai, x, y, larg, altu);
     int maxX = 0;
     int maxY = (int)(textAscent() + textDescent());
-    for (String op: opcoes) {
+    for (String op : opcoes) {
       if (maxX < (int)textWidth(op)) {
         maxX = (int)textWidth(op);
       }
@@ -372,12 +374,15 @@ class PainelEstados extends Painel {
     maxY += 2;
     forma(pai, x, y, maxX + maxY*2, maxY * opcoes.length);
     int posY = 0;
-    for (String op: opcoes) {
+    for (String op : opcoes) {
       new BotaoEstado(op, this, 0, posY, larg, maxY);
-      posY += maxY; 
+      posY += maxY;
     }
   }
 
+  void atribuiProxId(BotaoEstado be) {
+  }
+  
   void acao(Componente c) {
     super.acao(c);
     for (Componente irmao : componentes) {
@@ -386,26 +391,55 @@ class PainelEstados extends Painel {
       }
     }
   }
-  
+
   BotaoEstado selecionado() {
-    for (Componente bt : componentes) {
-      if (bt instanceof BotaoEstado && ((BotaoEstado)bt).estado) {
-        return (BotaoEstado)bt;
+    for (Componente c : componentes) {
+      if (c instanceof BotaoEstado) {
+        BotaoEstado bt = (BotaoEstado)c;
+        if (bt.estado) {
+          return bt;
+        }
       }
     }
     return null;
+  }
+
+  int idSelecionado() {
+    BotaoEstado bt = selecionado();
+    if (bt != null) {
+      return bt.id();
+    } else { 
+      return -1;
+    }
   }
 }
 
 class BotaoEstado extends Botao {
   private boolean estado = false;
+  private int id = -1;
 
   BotaoEstado(String texto, Componente pai, int x, int y, int larg, int altu) {
     super(texto, pai, x, y, larg, altu);
+    atribuiId();
   }
 
   BotaoEstado(String texto, Componente pai, int ... ptosXY) {
     super(texto, pai, ptosXY);
+    atribuiId();
+  }
+  
+  void atribuiId() {
+    if (pai instanceof PainelEstados) {
+      id(((PainelEstados)pai).ultimoId++);
+    }
+  }
+
+  void id(int id) {
+    this.id = id;
+  }
+
+  int id() {
+    return id;
   }
 
   void estado(boolean e) {
@@ -661,10 +695,12 @@ class SuporteDialogo extends Componente {
   void visivel(boolean b) {
     visivel = b;
     if (visivel) {
-      modalAnterior = Raiz.modal;
+      modalAnterior = Raiz.modal; //<>//
       Raiz.modal = this;
     } else {
-      Raiz.modal = modalAnterior;
+      if (modalAnterior != null) {
+        Raiz.modal = modalAnterior; //<>//
+      }
     }
     redraw();
   }
@@ -701,6 +737,7 @@ class Dialogo extends Componente {
   Dialogo(String titulo, Componente pai) {
     super(new SuporteDialogo(pai), 0, 18, 50, 40);
     painelTitulo = new PainelTitulo(titulo, this.pai);
+    visivel(false);
   }
 
   void forma() {
@@ -729,7 +766,7 @@ class Dialogo extends Componente {
     forma();
     pai.visivel(b);
   }
-
+ //<>//
   void fecha() {
     pai.remove();
   }
@@ -740,7 +777,7 @@ class IGU extends Componente {
   IGU() {
     super(0, 0, width - 1, height - 1);
     Raiz.igu = this;
-    Raiz.modal = this;
+    Raiz.modal = this; //<>//
   }
 
   Componente componenteNoPonto(int x, int y) {
@@ -773,7 +810,7 @@ static class Raiz {
   static boolean shift = false;
   static boolean alt = false;
   static boolean control = false;
-  static Componente modal = null;
+  static Componente modal = null; //<>//
 
   static void mudaFoco(Componente c) {
     if (c != null && componenteComFoco != c && c.podeReceberFoco && c.visivel) {
@@ -807,7 +844,7 @@ static class Raiz {
   }
 
   static void mouseMoveu(int x, int y) {
-    Componente c = igu.componenteNoPonto(x, y);
+    Componente c = igu.componenteNoPonto(x, y); //<>//
     if (c != null) {
       if (mouseNoComponente != c) {
         if (mouseNoComponente != null)

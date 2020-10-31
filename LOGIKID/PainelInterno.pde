@@ -1,6 +1,16 @@
 class PainelInterno extends Painel {
-  PainelInterno(Painel pai, int x, int y) {
-    super(pai, x, y, 300, 738);
+  PainelInterno(Componente pai, int x, int y) {
+    super(pai, x, y, 1014, 758);
     //colocar os componentes aqui
+    painelRobo = new PainelRobo(this, 10,50);
+    painelRobo.frente(painelRobo.corFundo);
+    painelBalao = new PainelBalao(this, 310,0);
+    painelBalao.frente(painelBalao.corFundo);
+    painelProg = new PainelProg(this,700,10);
+    painelProg.frente(principal.corFundo);
+    painelProg.fundo(this.corFundo);
+    painelInst = new PainelInst(this,10,350);
+    painelInst.frente(principal.corFundo);
+    painelInst.fundo(this.corFundo);
   }
 }

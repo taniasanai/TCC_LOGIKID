@@ -1,19 +1,24 @@
 Botao bPlay, bStop, bLimpar, bConfirmar;
-Entrada e;
+Entrada e, e2;
 Painel2 p2, p3;
 PainelFigura pRobo, pBalao;
-Painel painelRobo, painelBalao, painelProg, pBotao, painelInst, pBotaoInst,pAcao, pPosicao;
+Painel painelRobo, painelBalao, painelProg, pBotao, painelInst, pBotaoInst,pAcao, pPosicao,pPosObj,pPosXY, pVirar, pAndar,pAndarCm,pAndarPix,pVirarDir,pVirarEsq;
+Painel pVirarGrau,pVirarRad;
 Principal principal;
-
+//PARSE INT COM EXCEPTION
 void setup() {
   size(1024, 768);
 
   principal = new Principal();
   principal.fundo(color(162, 99, 5));
 
-  Painel p = new Painel(principal, 5, 5, width - 10, height - 10);
+  Painel p = new PainelInterno(principal, 5, 5);
   p.fundo(color(254,225,210));
   
+  //Painel pMenu = new PainelMenu(principal, 5, 5);
+  //pMenu.fundo(color(254,225,210));
+
+
 
   //b = new Botao("Aperte aqui para mover os paineis", p, 5, 35, 220, 30);
   int red = 255;
@@ -30,17 +35,8 @@ void setup() {
   //p2 = new Painel2(p, 10, 10);
   //p3 = new Painel2(p, 350, 120);
   
-  //--------Painel Robo ----- isso deveria ficar em uma outra classe -> PainelInterno
-  painelRobo = new PainelRobo(p, 10,50);
-  painelRobo.frente(painelRobo.corFundo);
-  painelBalao = new PainelBalao(p, 310,0);
-  painelBalao.frente(painelBalao.corFundo);
-  painelProg = new PainelProg(p,700,10);
-  painelProg.frente(principal.corFundo);
-  painelProg.fundo(p.corFundo);
-  painelInst = new PainelInst(p,10,350);
-  painelInst.frente(principal.corFundo);
-  painelInst.fundo(p.corFundo);
+  
+  
 }
 
 void draw() {
