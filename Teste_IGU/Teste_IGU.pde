@@ -14,8 +14,8 @@ class Principal extends IGU {
         p2.visivel(true);
         p3.visivel(true);
         p3.desenha();
-        new Dialogo("Titulo", this).visivel(true);
-        new Dlg(principal);
+        new Dialogo("Titulo").visivel(true);
+        new Dlg();
       }
     } else if (c instanceof Entrada) {
       if (c == e) {
@@ -27,40 +27,42 @@ class Principal extends IGU {
 
 class Dlg extends Dialogo {
   Botao bt;
-  PainelEstados pe2;
-  String opcoes[]={"um", "dois", "três", "quatro"};;
-  
-  Dlg(Componente pai) {
-    super("Teste do Dialogo", pai);
-    PainelEstados pe = new PainelEstados(this, 10, 10, 150, 80);
+  PainelEstados pe, pe2;
+
+  Dlg() {
+    super("Teste do Dialogo");
+    pe = new PainelEstados(this, 10, 10, 150, 80);
     BotaoEstado be1 = new BotaoEstado("Opção 1", pe, 0, 0, 150, 20);
     BotaoEstado be2 = new BotaoEstado("Opção dois", pe, 0, be1.y + be1.altu, 150, 20);
     BotaoEstado be3 = new BotaoEstado("Opção III", pe, 0, be2.y + be2.altu, 150, 20);
     BotaoEstado be4 = new BotaoEstado("Opção 4", pe, 0, be3.y + be3.altu, 150, 20);
-    
+
+    String opcoes[] = {"um", "dois", "três", "quatro"};
     pe2 = new PainelEstados(opcoes, this, pe.x + pe.larg + 10, 10, 150, 80);
-    
+
     bt = new Botao("Botao de teste", this, 10, pe.y + pe.altu + 10, 150, 20);
     new Entrada("", this, 100, bt.y + bt.altu + 10, 100, 20);
+    frente(color(255,0,0));// fundo do dialogo
+    fundo(color(0,255,0));
+    painelTitulo().frente(color(255,255,0));// painel de titulo (Roturo) da janela 
+    painelTitulo().fundo(color(0,0,255));
+    botaoFechar().frente(color(155,155,0));// botao fechar
+    botaoFechar().fundo(color(0,0,155));
     visivel(true);
   }
 
   void acao(Componente c) {
     if (c == bt) {
       fecha();
-    } else if (c.pai == pe2 && c instanceof BotaoEstado) {
-      BotaoEstado be = (BotaoEstado)c; 
-       
-      if (be.id == 0) {
-        println("O primeiro botão " + be.texto + " foi pressionado"); 
+    } else if (c.pai == pe) {
+      BotaoEstado bs = (BotaoEstado)c;
+      if (bs.id() == 2) {
+        println("O terceiro botão " + bs.texto + " foi pressionado");
       }
-      
-    }
-    else {
-      println(pe2.idSelecionado());
-      if(pe2.idSelecionado() == 2){
-         println("O terceiro botão " + opcoes[2] + " foi pressionado"); 
-      }
+    } else if (c.pai == pe2) {
+      BotaoEstado bs = (BotaoEstado)c;
+      PainelEstados pe = (PainelEstados)c.pai;
+      println(bs.id() + " " + pe.idSelecionado() + "  " + pe.selecionado().texto);
     }
   }
 }
@@ -148,7 +150,7 @@ void setup() {
   e.fundo(color(0, 255, 0));
 
   Painel p1 = new Painel(p, 150, 150, 400, 300);
-  
+
   p2 = new Painel2(p1, -50, 120);
   p3 = new Painel2(p, 350, 120);
 }
@@ -161,10 +163,10 @@ class Painel2 extends Painel {
     super(pai, x, y, 200, 200);
     Rotulo r = new Rotulo("Digite: ", this, 5, 95, 50, 20);
     e = new Entrada("?????", this, r.x + r.larg, 95, 100, 20);
-    
+
     Botao bf = new BotaoFigura("http://pt.naturewallpaperfree.com/c%C3%A9u/natureza-papel-de-parede-128x128-4129-e51cf332.jpg", this, 10, 10, 10, 80, 80, 80, 50, 20);
     //bf.fundo(color(0, 255,0));
-    
+
     Painel pa = new Painel(this, -10, -10, 20, 20);
     pa.fundo(color(255, 128, 0));
     Painel pb = new Painel(this, larg-10, altu-10, 20, 20);
@@ -186,11 +188,11 @@ class Painel2 extends Painel {
 
     void forma(Componente pai, int x, int y, int larg, int altu) {
       formaPoli(pai, x, y+6, x+1, y+3, x+3, y+1, x+6, y, // Primeiro canto 
-                x + larg -6, y, x + larg-3, y+1, x + larg-1, y+3, x + larg, y+6, // Segundo
-                x + larg, y + altu-6, x + larg-1, y + altu-3, x + larg-3, y + altu-1, x + larg -6, y + altu, //Terceiro  
-                x + 6, y + altu, x + 3, y + altu-1, x + 1, y + altu-3, x, y + altu-6);
+        x + larg -6, y, x + larg-3, y+1, x + larg-1, y+3, x + larg, y+6, // Segundo
+        x + larg, y + altu-6, x + larg-1, y + altu-3, x + larg-3, y + altu-1, x + larg -6, y + altu, //Terceiro  
+        x + 6, y + altu, x + 3, y + altu-1, x + 1, y + altu-3, x, y + altu-6);
     }
-    
+
     void desenhaContorno() {
       strokeWeight(1); 
       super.desenhaContorno();
