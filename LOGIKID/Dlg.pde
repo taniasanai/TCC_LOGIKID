@@ -1,7 +1,7 @@
 class Dlg extends Dialogo {
   Botao bt,bt2;
   Dlg(Componente pai) {
-    super("Confirmar instrução?", pai);
+    super("Confirmar instrução?");
     
     new Rotulo("A nova instrução é ",this,0,0,300,30);
     

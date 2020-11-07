@@ -258,7 +258,7 @@ class Rotulo extends Componente {
       break;
     }
     fill(corFrente);
-    text(texto, x, (altu - (textAscent() + textDescent()))/2);
+    text(texto, x, (altu - Raiz.alturaMinima)/2);
   }
 
   void desenhaContorno() {
@@ -320,7 +320,7 @@ class Botao extends Componente {
 
   void desenhaFrente(int dx, int dy) {
     fill(corFrente);
-    text(texto, (larg - (int)textWidth(texto)) / 2 + dx, (altu - (textAscent() + textDescent()))/2 + dy);
+    text(texto, (larg - (int)textWidth(texto)) / 2 + dx, (altu - Raiz.alturaMinima)/2 + dy);
   }
 
   void desenhaAcionado() {
@@ -365,7 +365,7 @@ class PainelEstados extends Painel {
   PainelEstados(String opcoes[], Componente pai, int x, int y, int larg, int altu) {
     super(pai, x, y, larg, altu);
     int maxX = 0;
-    int maxY = (int)(textAscent() + textDescent());
+    int maxY = Raiz.alturaMinima;
     for (String op : opcoes) {
       if (maxX < (int)textWidth(op)) {
         maxX = (int)textWidth(op);
@@ -384,12 +384,12 @@ class PainelEstados extends Painel {
   }
   
   void acao(Componente c) {
-    super.acao(c);
     for (Componente irmao : componentes) {
       if (irmao instanceof BotaoEstado && irmao != c) {
         ((BotaoEstado)irmao).estado(false);
       }
     }
+    super.acao(c);
   }
 
   BotaoEstado selecionado() {
@@ -448,17 +448,17 @@ class BotaoEstado extends Botao {
   }
 
   void acao() {
-    super.acao();
     if (pai instanceof PainelEstados) {
       estado(true);
     } else {
       estado(!estado);
     }
+    acao(this);
   }
 
   void desenhaFrente(int dx, int dy) {
-    int y = (int)(altu - (textAscent() + textDescent()))/2 + dy;
-    char simbolo = 0x2718;
+    int y = (altu - Raiz.alturaMinima)/2 + dy;
+    char simbolo = '\u2718';
     int x = dx + (int)textWidth(simbolo) + 4;
     if (!estado) {
       simbolo = ' ';
@@ -510,7 +510,7 @@ class Entrada extends Componente {
   void init(String texto) {
     this.texto = texto;
     textSize(tamanhoTexto);
-    int altuTexto = int(textAscent() + textDescent());
+    int altuTexto = Raiz.alturaMinima;
     yPosTexto = (altu - altuTexto)/2;
     corFundo = 224;
     selecionaTudo();
@@ -568,7 +568,7 @@ class Entrada extends Componente {
     }
     textSize(tamanhoTexto);
     //println("selecaox ini: "+selecaoInicio+" fin: "+selecaoFim+" \""+texto+"\"");
-    int altuTexto = int(textAscent() + textDescent());
+    int altuTexto = Raiz.alturaMinima;
     int xTam = (int)textWidth(texto.substring(selecaoInicio, selecaoFim + 1));
     xCarete = xTexto + (int)textWidth(texto.substring(0, selecaoInicio));
     if (comFoco) {
@@ -685,6 +685,8 @@ class Painel extends Componente {
   }
 }
 
+/** Dialogo */
+
 class SuporteDialogo extends Componente {
   private Componente modalAnterior;
 
@@ -706,40 +708,52 @@ class SuporteDialogo extends Componente {
   }
 }
 
-class PainelTitulo extends Painel {
-  Rotulo rotTitulo;
-  Botao btFechar;
+class PainelTitulo extends Rotulo {
+  Botao botaoFechar;
 
   PainelTitulo(String titulo, Componente pai) {
-    super(pai, 0, 0, pai.larg, 18);
-    rotTitulo = new Rotulo(titulo, this, 0, 0, larg - altu, altu);
-    btFechar = new Botao("X", this, rotTitulo.x + rotTitulo.larg, 0, altu, altu);
-    fundo(btFechar.corFrente);
-    rotTitulo.frente(btFechar.corFundo);
+    super(titulo, pai, 0, 0, pai.larg, Raiz.alturaMinima+2);
+    botaoFechar = new Botao("X", this, x + larg, 0, altu, altu - 1);
+    fundo(botaoFechar.corFrente);
+    frente(botaoFechar.corFundo);
   }
 
   void acao(Componente c) {
-    if (c == btFechar) {
+    if (c == botaoFechar) {
       pai.remove();
     }
   }
 
   void forma() {
     forma(pai, 0, 0, pai.larg, altu);
-    rotTitulo.forma(pai, 2, 0, pai.larg - btFechar.larg, btFechar.larg);  
-    btFechar.move(pai.larg - btFechar.larg, 0);
+    //rotuloTitulo.forma(pai, 2, 0, pai.larg - botaoFechar.larg, botaoFechar.larg);  
+    botaoFechar.move(pai.larg - botaoFechar.larg, 0);
+  }
+  
+  void fundo(color c) {
+    pai.corFundo = c;
+    redraw();
   }
 }
 
 class Dialogo extends Componente {
   PainelTitulo painelTitulo;
-
-  Dialogo(String titulo, Componente pai) {
-    super(new SuporteDialogo(pai), 0, 18, 50, 40);
+  
+  Dialogo(String titulo) {
+    super(new SuporteDialogo(Raiz.igu), (width-50)/2, (height-40)/2, 50, 40);
     painelTitulo = new PainelTitulo(titulo, this.pai);
     visivel(false);
   }
 
+  
+  Rotulo painelTitulo() {
+    return painelTitulo;
+  }; 
+  
+  Botao botaoFechar() {
+    return painelTitulo.botaoFechar;
+  }
+  
   void forma() {
     int minX = Integer.MAX_VALUE;
     int minY = Integer.MAX_VALUE;
@@ -762,6 +776,12 @@ class Dialogo extends Componente {
     painelTitulo.forma();
   }
 
+  void frente(color c) {
+    super.frente(c);
+    pai.corFrente = c;
+    redraw();
+  }
+  
   void visivel(boolean b) {
     forma();
     pai.visivel(b);
@@ -778,6 +798,7 @@ class IGU extends Componente {
     super(0, 0, width - 1, height - 1);
     Raiz.igu = this;
     Raiz.modal = this; //<>//
+    Raiz.alturaMinima = int(textAscent() + textDescent());
   }
 
   Componente componenteNoPonto(int x, int y) {
@@ -785,6 +806,7 @@ class IGU extends Componente {
   }
 
   Componente componenteNoPonto(Componente cAtual, int x, int y) {
+    //println(cAtual);
     if (cAtual.dentroDoComponente(x, y) && cAtual.visivel) {
       for (Componente c : cAtual.componentes) {
         Componente result = componenteNoPonto(c, x, y);
@@ -811,6 +833,7 @@ static class Raiz {
   static boolean alt = false;
   static boolean control = false;
   static Componente modal = null; //<>//
+  static int alturaMinima;
 
   static void mudaFoco(Componente c) {
     if (c != null && componenteComFoco != c && c.podeReceberFoco && c.visivel) {
