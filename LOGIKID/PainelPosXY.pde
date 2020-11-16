@@ -1,4 +1,6 @@
 class PainelPosXY extends Painel{
+  String comando;
+  Entrada e, e2;
   PainelPosXY(Painel pai, int x, int y){
     super(pai, x, y,  200, 200);
     new Rotulo("Qual ponto?",this,0,0,200,30);
@@ -11,6 +13,14 @@ class PainelPosXY extends Painel{
     e2.frente(principal.corFundo);
     e2.fundo(color(249, 245, 228));
     
-  }  
+  } 
+  void acao(Componente c){
+    String comandoNovo = comando+" "+ e.texto() + " " + e2.texto();
+    painelProg.adiciona(comandoNovo);
+  }
+   void comando(String cmd){
+     comando = cmd;
+     
+   }
   
 }

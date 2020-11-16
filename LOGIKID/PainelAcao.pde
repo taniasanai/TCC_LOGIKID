@@ -15,6 +15,8 @@ class PainelAcao extends Painel {
     switch(pe.idSelecionado()) {
     case 0: 
       pPosicao.visivel(true);
+      pPosicao.comando("irPara");
+      painelBalao.pergunta("Você deseja ir", "para onde?");
       pAndar.visivel(false);
       pVirar.visivel(false); 
       pPosXY.visivel(false); 
@@ -25,6 +27,7 @@ class PainelAcao extends Painel {
       pVirarEsq.visivel(false);
       pVirarGrau.visivel(false); 
       pVirarRad.visivel(false);
+      
       break;
     case 1: 
       pAndar.visivel(true);

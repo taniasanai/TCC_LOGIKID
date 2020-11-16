@@ -1,4 +1,5 @@
 class PainelVirarRad extends Painel{
+  Entrada e;
   PainelVirarRad(Painel pai, int x, int y, int flag){
     super(pai, x, y,  150, 200);
     new Rotulo("Quantos radianos?",this,0,0,150,30);

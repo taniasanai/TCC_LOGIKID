@@ -1,4 +1,5 @@
 class PainelAndarPix extends Painel{
+  Entrada e;
   PainelAndarPix(Painel pai, int x, int y){
     super(pai, x, y,  200, 200);
     new Rotulo("Quantos pixels?",this,0,0,200,30);

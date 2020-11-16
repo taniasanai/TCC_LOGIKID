@@ -12,9 +12,9 @@ class Principal extends IGU {
       //  p3.desenha();
       //}
     } else if (c instanceof Entrada) {
-      if (c == e) {
-        //println("Texto digitado na extrada: " + e.texto());
-      }
+      //if (c == e) {
+      //  //println("Texto digitado na extrada: " + e.texto());
+      //}
     }
   }
 }

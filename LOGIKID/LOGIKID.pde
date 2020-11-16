@@ -1,11 +1,16 @@
-Botao bPlay, bStop, bLimpar, bConfirmar;
-Entrada e, e2;
+Botao bPlay, bStop, bLimpar, bConfirmar, bPlayM, bSobre, bFechar;
 Painel2 p2, p3;
 PainelFigura pRobo, pBalao;
-Painel painelRobo, painelBalao, painelProg, pBotao, painelInst, pBotaoInst,pAcao, pPosicao,pPosObj,pPosXY, pVirar, pAndar,pAndarCm,pAndarPix,pVirarDir,pVirarEsq;
+Painel pMenu, painelRobo, painelRoboM, painelBalaoM, pBotao, pBotaoM, painelInst, pBotaoInst,pAcao,pPosObj, pVirar, pAndar,pAndarCm,pAndarPix,pVirarDir,pVirarEsq;
+PainelPosicao pPosicao;
+PainelPosXY pPosXY;
+PainelProg painelProg;
+PainelBalao painelBalao;
 Painel pVirarGrau,pVirarRad;
 Principal principal;
+//---------
 //PARSE INT COM EXCEPTION
+//---------
 void setup() {
   size(1024, 768);
 
@@ -15,8 +20,8 @@ void setup() {
   Painel p = new PainelInterno(principal, 5, 5);
   p.fundo(color(254,225,210));
   
-  //Painel pMenu = new PainelMenu(principal, 5, 5);
-  //pMenu.fundo(color(254,225,210));
+  pMenu = new PainelMenu(principal, 5, 5);
+  pMenu.fundo(color(254,225,210));
 
 
 

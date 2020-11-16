@@ -1,4 +1,5 @@
 class PainelAndarCm extends Painel {
+  Entrada e;
   PainelAndarCm(Painel pai, int x, int y) {
     super(pai, x, y, 200, 200);
     new Rotulo("Quantos centímetros?", this, 0, 0, 200, 30);

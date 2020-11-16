@@ -1,4 +1,5 @@
 class PainelVirarGrau extends Painel{
+  Entrada e;
   PainelVirarGrau(Painel pai, int x, int y, int flag){
     super(pai, x, y,  150, 200);
     new Rotulo("Quantos graus?",this,0,0,150,30);

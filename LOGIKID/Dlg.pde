@@ -9,10 +9,10 @@ class Dlg extends Dialogo {
     bt = new Botao("Não", this, 10, 50, 100, 20);
     bt2 = new Botao("Sim", this, 190,50,100,20);
     new Rotulo(" ",this,0,55,100,30);
-    fundo(color(10,100,200));
+    fundo(color(165,213,230));
     //frente(color(255,0,0));
-    painelTitulo.fundo(color(200,100,0));
-    painelTitulo.frente(color(255,0,0));//linha entre titulo e corpo
+    painelTitulo.fundo(color(99,161,218));
+    painelTitulo.frente(color(0,0,0));//linha entre titulo e corpo
     visivel(true);
   }
 
@@ -22,6 +22,9 @@ class Dlg extends Dialogo {
     }
     else if(c==bt2){
       //mandar instrução pro painel de programa
+      //colocar a instrução no painelProg
+      //limpa todos os campos
+      fecha();
     }
   }
 }
