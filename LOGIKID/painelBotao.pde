@@ -8,5 +8,14 @@ class PainelBotao extends Painel{
     bStop = new BotaoFigura("stop.png",this,225,5);
     bStop.fundo(pai.pai.corFundo);
     bStop.frente(pai.pai.corFundo);
-  }  
+  }
+  void acao(Componente c){
+    if(c==bPlay){
+      //executa o servidor
+    }
+    else if(c==bStop){
+      //para o servidor se estiver executando
+      //ou não faz nada se não estiver executando
+    }
+  }
 }

@@ -1,5 +1,5 @@
 class PainelBalao extends Painel{
-  String texto1="Selecione os botões para", texto2="montar sua instrução!";
+  String texto1="O que eu devo fazer agora?", texto2="Selecione uma instrução!";
   Rotulo r1, r2;
   PainelBalao(Painel pai, int x, int y){
     super(pai, x, y,  350, 200);

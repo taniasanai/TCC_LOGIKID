@@ -1,4 +1,4 @@
-class PainelAcao extends Painel {
+class PainelAcao extends PainelPergunta {
   PainelEstados pe;
   PainelAcao(Painel pai, int x, int y) {
     super(pai, x, y, 200, 200);
@@ -9,51 +9,61 @@ class PainelAcao extends Painel {
     BotaoEstado be2 = new BotaoEstado("Andar", pe, 0, be1.y + be1.altu, 150, 20);
     BotaoEstado be3 = new BotaoEstado("Virar", pe, 0, be2.y + be2.altu, 150, 20);
     // BotaoEstado be4 = new BotaoEstado("Pega objeto", pe, 0, be3.y + be3.altu, 150, 20);
+    textoPerguntaLinha1="O que eu devo fazer agora?";
+    textoPerguntaLinha2="Selecione uma instrução!";
   }  
   void acao(Componente c) {
 
     switch(pe.idSelecionado()) {
     case 0: 
-      pPosicao.visivel(true);
+      perguntaProxima(pPosicao); //<>//
       pPosicao.comando("irPara");
-      painelBalao.pergunta("Você deseja ir", "para onde?");
-      pAndar.visivel(false);
-      pVirar.visivel(false); 
-      pPosXY.visivel(false); 
-      pPosObj.visivel(false);
-      pAndarCm.visivel(false); 
-      pAndarPix.visivel(false);
-      pVirarDir.visivel(false); 
-      pVirarEsq.visivel(false);
-      pVirarGrau.visivel(false); 
-      pVirarRad.visivel(false);
+      //painelBalao.pergunta("Você deseja ir para onde?", "Até um ponto ou objeto?");
+      //pAndar.visivel(false);
+      //pVirar.visivel(false); 
+      //pPosXY.visivel(false); 
+      //pPosObj.visivel(false);
+      //pAndarCm.visivel(false); 
+      //pAndarPix.visivel(false);
+      //pVirarDir.visivel(false); 
+      //pVirarEsq.visivel(false);
+      //pVirarGrau.visivel(false); 
+      //pVirarRad.visivel(false);
+      //pAcao.visivel(false);
       
       break;
     case 1: 
-      pAndar.visivel(true);
-      pVirar.visivel(false);
-      pPosicao.visivel(false);
-      pPosXY.visivel(false); 
-      pPosObj.visivel(false);
-      pAndarCm.visivel(false); 
-      pAndarPix.visivel(false);
-      pVirarDir.visivel(false); 
-      pVirarEsq.visivel(false);
-      pVirarGrau.visivel(false); 
-      pVirarRad.visivel(false);
+      perguntaProxima(pAndar);
+      //pAndar.comando("");
+      //painelBalao.pergunta("Você deseja andar em", "centímetros ou pixels?");
+      //pVirar.visivel(false);
+      //pPosicao.visivel(false);
+      //pPosXY.visivel(false); 
+      //pPosObj.visivel(false);
+      //pAndarCm.visivel(false); 
+      //pAndarPix.visivel(false);
+      //pVirarDir.visivel(false); 
+      //pVirarEsq.visivel(false);
+      //pVirarGrau.visivel(false); 
+      //pVirarRad.visivel(false);
+      //pAcao.visivel(false);
       break;
     case 2: 
       pVirar.visivel(true);
-      pAndar.visivel(false);
-      pPosicao.visivel(false); 
-      pPosXY.visivel(false); 
-      pPosObj.visivel(false);
-      pAndarCm.visivel(false); 
-      pAndarPix.visivel(false);
-      pVirarDir.visivel(false); 
-      pVirarEsq.visivel(false);
-      pVirarGrau.visivel(false); 
-      pVirarRad.visivel(false);
+      perguntaProxima(pVirar);
+      //pVirar.comando("");
+      //painelBalao.pergunta("Você deseja virar para qual", "lado? Direita ou esquerda?");
+      //pAndar.visivel(false);
+      //pPosicao.visivel(false); 
+      //pPosXY.visivel(false); 
+      //pPosObj.visivel(false);
+      //pAndarCm.visivel(false); 
+      //pAndarPix.visivel(false);
+      //pVirarDir.visivel(false); 
+      //pVirarEsq.visivel(false);
+      //pVirarGrau.visivel(false); 
+      //pVirarRad.visivel(false);
+      //pAcao.visivel(false);
       break;
     }
   }

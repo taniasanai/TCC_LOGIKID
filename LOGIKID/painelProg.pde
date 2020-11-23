@@ -3,8 +3,8 @@ class PainelProg extends Painel{
   int indSelecao=0;
   ArrayList <String> comandos = new ArrayList<String>();
   PainelProg(Painel pai, int x, int y){
-    super(pai, x, y,  300, 738);
-    pBotao = new PainelBotao(this, 0, 655);
+    super(pai, x, y,  300, 538);
+    pBotao = new PainelBotao(this, 0, 455);
     pBotao.fundo(pai.corFundo);
     pBotao.frente(pai.pai.corFundo);
     

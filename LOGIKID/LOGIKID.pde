@@ -1,13 +1,24 @@
 Botao bPlay, bStop, bLimpar, bConfirmar, bPlayM, bSobre, bFechar;
 Painel2 p2, p3;
 PainelFigura pRobo, pBalao;
-Painel pMenu, painelRobo, painelRoboM, painelBalaoM, pBotao, pBotaoM, painelInst, pBotaoInst,pAcao,pPosObj, pVirar, pAndar,pAndarCm,pAndarPix,pVirarDir,pVirarEsq;
+Painel pMenu, painelRobo, painelRoboM, painelBalaoM, pBotao, pBotaoM, painelInst, pBotaoInst;
+PainelAcao pAcao;
 PainelPosicao pPosicao;
 PainelPosXY pPosXY;
+PainelPosObj pPosObj;
 PainelProg painelProg;
 PainelBalao painelBalao;
-Painel pVirarGrau,pVirarRad;
+PainelAndarCm pAndarCm;
+PainelAndar pAndar;
+PainelAndarPix pAndarPix;
+PainelVirar pVirar;
+PainelVirarDir pVirarDir;
+PainelVirarEsq pVirarEsq;
+PainelVirarGrau pVirarGrau;
+PainelVirarRad pVirarRad;
+PainelComando pComando;
 Principal principal;
+ArrayList<PainelPergunta> ordemComandos = new ArrayList<PainelPergunta>();
 //---------
 //PARSE INT COM EXCEPTION
 //---------
